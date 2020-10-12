@@ -3,8 +3,8 @@
 void MyAllocator::make_allocator(size_t max_size)
 {
 	// If allocator already exists reallocate memory, otherwise allocate new block
-	if (memory_size_ != 0)
-		begin_ = static_cast<char*>(realloc(static_cast<void*>(begin_), max_size));
+	if (begin_ != nullptr)
+		begin_ = static_cast<char*>(realloc(begin_, max_size));
 	else
 		begin_ = static_cast<char*>(malloc(max_size));
 

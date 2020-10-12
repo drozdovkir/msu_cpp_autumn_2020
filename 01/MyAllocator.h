@@ -1,12 +1,12 @@
 #pragma once
-#include <memory>
+#include <cstdlib>
 
 class MyAllocator
 {
 private:
-	size_t memory_size_;
-	char* begin_; // Pointer to the begining of the memory block
-	char* current_; // Pointer to the begining of unused memory
+	size_t memory_size_ = 0;
+	char* begin_ = nullptr; // Pointer to the begining of the memory block
+	char* current_ = nullptr; // Pointer to the begining of unused memory
 
 public:
 	// No constructor because make_allocator contains all its logic

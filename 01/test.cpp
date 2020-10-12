@@ -31,7 +31,7 @@ int main()
 	myAllctr.make_allocator(200);
 	c = myAllctr.alloc(100);
 	assert(c != nullptr);
-	
+
 	MyAllocator myAllctr2;
 
 	// Memory cannot be allocated until allocator is created
