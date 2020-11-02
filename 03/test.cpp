@@ -30,6 +30,15 @@ int main()
 	assert(m2[1][1] == 5);
 	assert(m3[1][1] == 8);
 
+	// Elements can be extracted without changing matrix
+	int a = m1[1][1];
+	int b = m2[1][1];
+	int c = m3[1][1];
+
+	assert(a == 3);
+	assert(b == 5);
+	assert(c == 8);
+
 	// Matrices can be checked on inequality
 	assert(m1 != m2);
 	assert(m2 != m3);
@@ -48,8 +57,8 @@ int main()
 	assert(m1 == m3);
 
 	Matrix m5(cols, rows);
-	
-	// Matrices with conflicting sizes cannot be added
+
+	// You cannot add matrices with conflicting sizes
 	try
 	{
 		m1 = m2 + m5;
@@ -59,7 +68,7 @@ int main()
 		std::cout << ex.what() << std::endl;
 	}
 
-	// Element with invalid index cannot be extracted
+	// You cannot get element with invalid index
 	try
 	{
 		int elem = m1[100][100];

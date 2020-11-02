@@ -3,14 +3,17 @@ FLAGS = -std=c++17
 
 all: main
 
-main: main.o Matrix.o
-	$(CC) $(FLAGS) -o main main.o Matrix.o
+main: main.out
+	./main.out
 
-test: test.x
-	./test.x
+main.out: main.o Matrix.o
+	$(CC) $(FLAGS) -o main.out main.o Matrix.o
 
-test.x: test.o Matrix.o
-	$(CC) $(FLAGS) -o test.x test.o Matrix.o
+test: test.out
+	./test.out
+
+test.out: test.o Matrix.o
+	$(CC) $(FLAGS) -o test.out test.o Matrix.o
 
 main.o: main.cpp Matrix.h
 	$(CC) $(FLAGS) -c main.cpp
@@ -22,4 +25,4 @@ Matrix.o: Matrix.cpp Matrix.h
 	$(CC) $(FLAGS) -c Matrix.cpp
 
 clean:
-	rm -f *.o main test.x
+	rm -f *.o main.out test.out

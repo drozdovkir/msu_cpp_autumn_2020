@@ -6,27 +6,27 @@ TokenParser::TokenParser()
 	digit_func_ = string_func_ = nullptr;
 }
 
-void TokenParser::set_start_callback(void(*func)())
+void TokenParser::set_start_callback(std::function<void()> func)
 {
 	start_func_ = func;
 }
 
-void TokenParser::set_digit_token_callback(void(*func)(std::string&))
+void TokenParser::set_digit_token_callback(std::function<void(std::string&)> func)
 {
 	digit_func_ = func;
 }
 
-void TokenParser::set_string_token_callback(void(*func)(std::string&))
+void TokenParser::set_string_token_callback(std::function<void(std::string&)> func)
 {
 	string_func_ = func;
 }
 
-void TokenParser::set_finish_callback(void(*func)())
+void TokenParser::set_finish_callback(std::function<void()> func)
 {
 	finish_func_ = func;
 }
 
-void TokenParser::process(std::string& str)
+void TokenParser::process(const std::string& str)
 {
 	Token current_token;
 	int v = 0;
@@ -48,10 +48,9 @@ void TokenParser::process(std::string& str)
 	default_finish_handler_();
 }
 
-void TokenParser::print_tokens()
+std::vector<Token> TokenParser::get_tokens()
 {
-	for (int i = 0; i < tokens_.size(); i++)
-		std::cout << tokens_[i].content << std::endl;
+	return tokens_;
 }
 
 void TokenParser::refresh()
@@ -83,13 +82,13 @@ void TokenParser::default_finish_handler_()
 		finish_func_();
 }
 
-Token TokenParser::extract_token_(std::string& str, int& v)
+Token TokenParser::extract_token_(const std::string& str, int& v)
 {
 	Token result_token;
 	result_token.type = digit;
 
 	for (int i = v; ; i++)
-		if ((str[i] == ' ') || (str[i] == '\t') || (str[i] == '\n') || (str[i] == '\0'))
+		if (isspace(str[i]) || (str[i] == '\0'))
 		{
 			result_token.content = str.substr(v, i - v);
 			v = i + 1;

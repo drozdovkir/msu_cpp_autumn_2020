@@ -3,7 +3,6 @@
 #include <exception>
 #include <iostream>
 
-// Auxiliary class for Matrix implementation
 class Vector
 {
 private:
@@ -16,14 +15,15 @@ public:
 	Vector(const Vector&);
 
 	int& operator [](int);
+	int operator [](int) const;
 
 	Vector& operator=(const Vector&);
 
 	Vector& operator *=(int);
-	Vector operator +(const Vector&);
+	Vector operator +(const Vector&) const;
 
-	bool operator ==(const Vector&);
-	bool operator !=(const Vector&);
+	bool operator ==(const Vector&) const;
+	bool operator !=(const Vector&) const;
 
 	friend std::ostream& operator<< (std::ostream&, const Vector&);
 
@@ -42,18 +42,19 @@ public:
 	Matrix(size_t, size_t);
 	Matrix(const Matrix&);
 
-	int get_rows();
-	int get_columns();
+	int get_rows() const;
+	int get_columns() const;
 
 	Vector& operator [](int);
+	Vector operator [](int) const;
 
 	Matrix& operator =(const Matrix&);
 
 	Matrix& operator *=(int);
-	Matrix operator +(const Matrix&);
+	Matrix operator +(const Matrix&) const;
 
-	bool operator ==(const Matrix&);
-	bool operator !=(const Matrix&);
+	bool operator ==(const Matrix&) const;
+	bool operator !=(const Matrix&) const;
 
 	friend std::ostream& operator<< (std::ostream&, const Matrix&);
 

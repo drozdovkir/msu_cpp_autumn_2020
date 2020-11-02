@@ -29,6 +29,14 @@ int& Vector::operator [](int index)
 	return contents_[index];
 }
 
+int Vector::operator [](int index) const
+{
+	if ((index < 0) || (index >= size_))
+		throw std::out_of_range("index is out of range");
+
+	return contents_[index];
+}
+
 Vector& Vector::operator =(const Vector& v)
 {
 	size_ = v.size_;
@@ -51,7 +59,7 @@ Vector& Vector::operator *=(int k)
 	return *this;
 }
 
-Vector Vector::operator +(const Vector& rhs)
+Vector Vector::operator +(const Vector& rhs) const
 {
 	if (size_ != rhs.size_)
 		throw std::out_of_range("sizes of operands are not equal");
@@ -64,7 +72,7 @@ Vector Vector::operator +(const Vector& rhs)
 	return result;
 }
 
-bool Vector::operator ==(const Vector& rhs)
+bool Vector::operator ==(const Vector& rhs) const
 {
 	if (size_ != rhs.size_)
 		return false;
@@ -76,7 +84,7 @@ bool Vector::operator ==(const Vector& rhs)
 	return true;
 }
 
-bool Vector::operator !=(const Vector& rhs)
+bool Vector::operator !=(const Vector& rhs) const
 {
 	return !(*this == rhs);
 }
@@ -96,9 +104,6 @@ Vector::~Vector()
 
 Matrix::Matrix(size_t rows, size_t cols): height_(rows), width_(cols)
 {
-	if ((height_ <= 0) || (width_ <= 0))
-		throw std::out_of_range("incorrect parameter in constructor");
-
 	contents_ = new Vector[height_];
 
 	for (size_t i = 0; i < height_; i++)
@@ -113,17 +118,25 @@ Matrix::Matrix(const Matrix& m) : height_(m.height_), width_(m.width_)
 		contents_[i] = m.contents_[i];
 }
 
-int Matrix::get_rows()
+int Matrix::get_rows() const
 {
 	return height_;
 }
 
-int Matrix::get_columns()
+int Matrix::get_columns() const
 {
 	return width_;
 }
 
 Vector& Matrix::operator [](int index)
+{
+	if ((index < 0) || (index >= height_))
+		throw std::out_of_range("index is out of range");
+
+	return contents_[index];
+}
+
+Vector Matrix::operator [](int index) const
 {
 	if ((index < 0) || (index >= height_))
 		throw std::out_of_range("index is out of range");
@@ -157,7 +170,7 @@ Matrix& Matrix::operator *=(int k)
 	return *this;
 }
 
-Matrix Matrix::operator +(const Matrix& rhs)
+Matrix Matrix::operator +(const Matrix& rhs) const
 {
 	if ((height_ != rhs.height_) || (width_ != rhs.width_))
 		throw std::out_of_range("sizes of operands are not equal");
@@ -170,7 +183,7 @@ Matrix Matrix::operator +(const Matrix& rhs)
 	return result;
 }
 
-bool Matrix::operator ==(const Matrix& rhs)
+bool Matrix::operator ==(const Matrix& rhs) const
 {
 	if ((height_ != rhs.height_) || (width_ != rhs.width_))
 		return false;
@@ -182,7 +195,7 @@ bool Matrix::operator ==(const Matrix& rhs)
 	return true;
 }
 
-bool Matrix::operator !=(const Matrix& rhs)
+bool Matrix::operator !=(const Matrix& rhs) const
 {
 	return !(*this == rhs);
 }

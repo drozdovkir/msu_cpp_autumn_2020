@@ -1,4 +1,5 @@
 #include "TokenParser.h"
+#include <iostream>
 
 int main()
 {
@@ -9,7 +10,10 @@ int main()
 
 	TokenParser tparser;
 	tparser.process(input_string);
-	tparser.print_tokens();
+	std::vector<Token> tkns = tparser.get_tokens();
+
+	for (int i = 0; i < tkns.size(); i++)
+		std::cout << tkns[i].content << std::endl;
 
 	return 0;
 }
