@@ -13,7 +13,7 @@ enum TokenType
 struct Token
 {
 	Token() {}
-	Token(const std::string str, TokenType type_) { content = str; type = type_; }
+	Token(const std::string& str, TokenType type_) { content = str; type = type_; }
 	bool operator ==(const Token& rhs) const { return ((content == rhs.content) && (type == rhs.type)); }
 	std::string content;
 	TokenType type;
