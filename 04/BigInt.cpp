@@ -168,26 +168,13 @@ BigInt BigInt::operator *(int rhs)
 BigInt BigInt::operator +(BigInt& rhs)
 {
 	if ((!sign_) && (rhs.sign_)) // a >= 0 and b < 0
-	{
-		BigInt result = (*this) - (-rhs);
-		rhs = -rhs;
-		return result;
-	}
+		return (*this) - (-rhs);
 
 	if ((sign_) && (!rhs.sign_)) // a < 0 and b >= 0
-	{
-		BigInt result = rhs - (-(*this));
-		*this = -(*this);
-		return result;
-	}
+		return rhs - (-(*this));
 
 	if ((sign_) && (rhs.sign_)) // a < 0 and b < 0
-	{
-		BigInt result = -(-(*this) + (-rhs));
-		*this = -(*this);
-		rhs = -rhs;
-		return result;
-	}
+		return -(-(*this) + (-rhs));
 
 	int remember = 0;
 	int stop = std::max(size_, rhs.size_);
@@ -219,26 +206,13 @@ BigInt BigInt::operator +(BigInt& rhs)
 BigInt BigInt::operator -(BigInt& rhs)
 {
 	if ((!sign_) && (rhs.sign_)) // a >= 0, b < 0
-	{
-		BigInt result = *this + (-rhs);
-		rhs = -rhs;
-		return result;
-	}
+		return *this + (-rhs);
 
 	if ((sign_) && (!rhs.sign_)) // a < 0, b >= 0
-	{
-		BigInt result = -(-(*this) + rhs);
-		*this = -(*this);
-		return result;
-	}
+		return -(-(*this) + rhs);
 
 	if ((sign_) && (rhs.sign_)) // a < 0, b < 0
-	{
-		BigInt result = (-rhs) - (-(*this));
-		*this = -(*this);
-		rhs = -rhs;
-		return result;
-	}
+		return (-rhs) - (-(*this));
 
 	if (rhs > *this) // a < b
 		return -(rhs - *this);
@@ -280,10 +254,11 @@ BigInt BigInt::operator -(BigInt& rhs)
 	return result;
 }
 
-BigInt& BigInt::operator -()
+BigInt BigInt::operator -()
 {
-	sign_ = !sign_;
-	return *this;
+	BigInt res = *this;
+	res.sign_ = !res.sign_;
+	return res;
 }
 
 BigInt BigInt::operator *(BigInt& rhs)
@@ -372,7 +347,7 @@ bool BigInt::operator >(int rhs) const
 	return *this > Rhs;
 }
 
-bool BigInt::operator ==(BigInt& rhs) const
+bool BigInt::operator ==(const BigInt& rhs) const
 {
 	if ((rhs.size_ != size_) || (rhs.sign_ != sign_)) // If signs or sizes are not equal then numbers are not equal as well
 		return false;
@@ -384,22 +359,22 @@ bool BigInt::operator ==(BigInt& rhs) const
 	return true;
 }
 
-bool BigInt::operator !=(BigInt& rhs) const
+bool BigInt::operator !=(const BigInt& rhs) const
 {
 	return !(*this == rhs);
 }
 
-bool BigInt::operator <=(BigInt& rhs) const
+bool BigInt::operator <=(const BigInt& rhs) const
 {
 	return ((*this < rhs) || (*this == rhs));
 }
 
-bool BigInt::operator >=(BigInt& rhs) const
+bool BigInt::operator >=(const BigInt& rhs) const
 {
 	return !(*this < rhs);
 }
 
-bool BigInt::operator <(BigInt& rhs) const
+bool BigInt::operator <(const BigInt& rhs) const
 {
 	if ((sign_) && (!rhs.sign_)) // If this number is negative and rhs is positive then this is smaller
 		return true;
@@ -424,7 +399,7 @@ bool BigInt::operator <(BigInt& rhs) const
 	return false; // If numbers are equal this number is not smaller
 }
 
-bool BigInt::operator >(BigInt& rhs) const
+bool BigInt::operator >(const BigInt& rhs) const
 {
 	return !(*this <= rhs);
 }

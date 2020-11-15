@@ -38,7 +38,7 @@ public:
 	BigInt operator -(BigInt&& rhs) { return *this - rhs; }
 	BigInt operator *(BigInt&& rhs) { return *this * rhs; }
 
-	BigInt& operator -();
+	BigInt operator -();
 
 	// Comparising operators
 	bool operator ==(int) const;
@@ -48,12 +48,12 @@ public:
 	bool operator <(int) const;
 	bool operator >(int) const;
 
-	bool operator ==(BigInt&) const;
-	bool operator !=(BigInt&) const;
-	bool operator <=(BigInt&) const;
-	bool operator >=(BigInt&) const;
-	bool operator <(BigInt&) const;
-	bool operator >(BigInt&) const;
+	bool operator ==(const BigInt&) const;
+	bool operator !=(const BigInt&) const;
+	bool operator <=(const BigInt&) const;
+	bool operator >=(const BigInt&) const;
+	bool operator <(const BigInt&) const;
+	bool operator >(const BigInt&) const;
 
 	bool operator ==(BigInt&& rhs) const { return *this == rhs; }
 	bool operator !=(BigInt&& rhs) const { return *this != rhs; }
