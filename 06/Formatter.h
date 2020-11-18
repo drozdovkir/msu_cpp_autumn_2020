@@ -10,24 +10,20 @@ template <typename T>
 void get_substrs(std::vector<std::string>& substrs_, T&& val)
 {
 	std::stringstream stream_;
-	std::string s;
 
-	stream_ << val;                 // Get string representation of argument
-	std::getline(stream_, s);       // and put it in a vector
+	stream_ << val;  // Get string representation of argument and put it in a vector
 
-	substrs_.push_back(s);
+	substrs_.push_back(stream_.str());
 }
 
 template <typename T, typename... argsT>
 void get_substrs(std::vector<std::string>& substrs_, T&& val, argsT&&... args)
 {
 	std::stringstream stream_;
-	std::string s;
 
 	stream_ << val;
-	std::getline(stream_, s);
 
-	substrs_.push_back(s);
+	substrs_.push_back(stream_.str());
 
 	get_substrs(substrs_, std::forward<argsT>(args)...);
 }
@@ -66,7 +62,7 @@ std::string format(const std::string& str, argsT&&... args)
 				if (v == start) // '{}' case
 					throw InvalidParanthesis("Invalid expression indide {}, should be non-negative integer");
 
-				int index = atoi(str.substr(start, v - start).c_str());
+				int index = std::stoi(str.substr(start, v - start));
 
 				if (index >= substrs.size())
 					throw InvalidArguments(index, substrs.size());

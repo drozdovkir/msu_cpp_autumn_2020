@@ -9,7 +9,7 @@ private:
 	std::string error_message_;
 public:
 	InvalidParanthesis(std::string err_mes): error_message_(err_mes) {}
-	const char* what() const noexcept { return error_message_.c_str(); }
+	const char* what() const noexcept override { return error_message_.c_str(); }
 };
 
 // Exception thrown when mismatch between amount of arguments and positions occurs
@@ -20,15 +20,12 @@ private:
 	int arg_size_;
 public:
 	InvalidArguments(int i, int size): arg_index_(i), arg_size_(size) {}
-	const char* what() const noexcept
+	const char* what() const noexcept override
 	{
 		std::stringstream ss;
 		ss << "Invalid count of arguments: " << arg_index_ << " positional arguments required, but only "
 			<< arg_size_ << " given";
 
-		std::string error_message;
-		std::getline(ss, error_message);
-
-		return error_message.c_str();
+		return (ss.str()).c_str();
 	}
 };

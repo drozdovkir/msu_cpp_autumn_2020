@@ -12,7 +12,7 @@ BigInt::BigInt()
 BigInt::BigInt(int a)
 {
 	sign_ = false;
-	
+
 	if (a < 0)
 	{
 		sign_ = true;
@@ -42,7 +42,7 @@ BigInt::BigInt(int a)
 }
 
 BigInt::BigInt(const std::string& s)
-{	
+{
 	sign_ = s[0] == '-';
 	int l = s.length() - (sign_ ? 1 : 0); // length of string excluding sign
 
@@ -67,13 +67,13 @@ BigInt::BigInt(const std::string& s)
 			int d = s[v] - '0';
 			a = 10 * a + d;
 		}
-		
+
 		digits_[i] = a;
 		i++;
 	}
 }
 
-BigInt::BigInt(const BigInt& num): size_(num.size_), sign_(num.sign_)
+BigInt::BigInt(const BigInt& num) : size_(num.size_), sign_(num.sign_)
 {
 	digits_ = new int[size_];
 
@@ -81,12 +81,9 @@ BigInt::BigInt(const BigInt& num): size_(num.size_), sign_(num.sign_)
 		digits_[i] = num.digits_[i];
 }
 
-BigInt::BigInt(BigInt&& num): size_(num.size_), sign_(num.sign_)
+BigInt::BigInt(BigInt&& num) : size_(num.size_), sign_(num.sign_)
 {
-	digits_ = new int[size_];
-
-	for (int i = 0; i < size_; i++)
-		digits_[i] = num.digits_[i];
+	digits_ = num.digits_;
 
 	num.digits_ = nullptr;
 	num.size_ = 0;
@@ -100,7 +97,7 @@ BigInt& BigInt::operator =(int rhs)
 	return *this;
 }
 
-BigInt& BigInt::operator =(BigInt& rhs)
+BigInt& BigInt::operator =(const BigInt& rhs)
 {
 	if (this == &rhs)
 		return *this;
@@ -147,25 +144,25 @@ BigInt& BigInt::operator =(BigInt&& rhs)
 // (-a) - b = -(a + b)
 // (-a) - (-b) = b - a
 
-BigInt BigInt::operator +(int rhs)
+BigInt BigInt::operator +(int rhs) const
 {
 	BigInt Rhs(rhs);
 	return *this + Rhs;
 }
 
-BigInt BigInt::operator -(int rhs)
+BigInt BigInt::operator -(int rhs) const
 {
 	BigInt Rhs(rhs);
 	return *this - Rhs;
 }
 
-BigInt BigInt::operator *(int rhs)
+BigInt BigInt::operator *(int rhs) const
 {
 	BigInt Rhs(rhs);
 	return *this * Rhs;
 }
 
-BigInt BigInt::operator +(BigInt& rhs)
+BigInt BigInt::operator +(const BigInt& rhs) const
 {
 	if ((!sign_) && (rhs.sign_)) // a >= 0 and b < 0
 		return (*this) - (-rhs);
@@ -203,7 +200,7 @@ BigInt BigInt::operator +(BigInt& rhs)
 	return result;
 }
 
-BigInt BigInt::operator -(BigInt& rhs)
+BigInt BigInt::operator -(const BigInt& rhs) const
 {
 	if ((!sign_) && (rhs.sign_)) // a >= 0, b < 0
 		return *this + (-rhs);
@@ -254,14 +251,14 @@ BigInt BigInt::operator -(BigInt& rhs)
 	return result;
 }
 
-BigInt BigInt::operator -()
+BigInt BigInt::operator -() const
 {
 	BigInt res = *this;
 	res.sign_ = !res.sign_;
 	return res;
 }
 
-BigInt BigInt::operator *(BigInt& rhs)
+BigInt BigInt::operator *(const BigInt& rhs) const
 {
 	if ((*this == 0) || (rhs == 0))
 		return BigInt(0);
