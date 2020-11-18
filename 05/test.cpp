@@ -54,6 +54,16 @@ int main()
 	error = deserializer2.load(d);
 	assert(error == Error::CorruptedArchive);
 	ss1.str("");
+	
+	ss1 << "1 2 3";
+	error = deserializer2.load(d);
+	assert(error == Error::CorruptedArchive);
+	ss1.str("");
+
+	ss1 << "1 true";
+	error = deserializer2.load(d);
+	assert(error == Error::CorruptedArchive);
+	ss1.str("");
 
 	std::ofstream test_ofile("tests.txt");
 
