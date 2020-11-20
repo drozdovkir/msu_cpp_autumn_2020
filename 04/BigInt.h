@@ -22,23 +22,19 @@ public:
 
 	// Assignment operators
 	BigInt& operator =(int);
-	BigInt& operator =(BigInt&);
+	BigInt& operator =(const BigInt&);
 	BigInt& operator =(BigInt&&);
 
 	// Arithmetic operators
-	BigInt operator +(int);
-	BigInt operator -(int);
-	BigInt operator *(int);
+	BigInt operator +(int) const;
+	BigInt operator -(int) const;
+	BigInt operator *(int) const;
 
-	BigInt operator +(BigInt&);
-	BigInt operator -(BigInt&);
-	BigInt operator *(BigInt&);
+	BigInt operator +(const BigInt&) const;
+	BigInt operator -(const BigInt&) const;
+	BigInt operator *(const BigInt&) const;
 
-	BigInt operator +(BigInt&& rhs) { return *this + rhs; }
-	BigInt operator -(BigInt&& rhs) { return *this - rhs; }
-	BigInt operator *(BigInt&& rhs) { return *this * rhs; }
-
-	BigInt operator -();
+	BigInt operator -() const;
 
 	// Comparising operators
 	bool operator ==(int) const;
@@ -54,13 +50,6 @@ public:
 	bool operator >=(const BigInt&) const;
 	bool operator <(const BigInt&) const;
 	bool operator >(const BigInt&) const;
-
-	bool operator ==(BigInt&& rhs) const { return *this == rhs; }
-	bool operator !=(BigInt&& rhs) const { return *this != rhs; }
-	bool operator <=(BigInt&& rhs) const { return *this <= rhs; }
-	bool operator >=(BigInt&& rhs) const { return *this >= rhs; }
-	bool operator <(BigInt&& rhs) const { return *this < rhs; }
-	bool operator >(BigInt&& rhs) const { return *this > rhs; }
 
 	friend std::ostream& operator <<(std::ostream&, const BigInt&);
 
