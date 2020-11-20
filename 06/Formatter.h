@@ -7,7 +7,7 @@
 #include "FormatExceptions.h"
 
 template <typename T>
-void get_substrs(std::vector<std::string>& substrs_, T&& val)
+void get_substrs(std::vector<std::string>& substrs_, const T& val)
 {
 	std::stringstream stream_;
 
@@ -17,7 +17,7 @@ void get_substrs(std::vector<std::string>& substrs_, T&& val)
 }
 
 template <typename T, typename... argsT>
-void get_substrs(std::vector<std::string>& substrs_, T&& val, argsT&&... args)
+void get_substrs(std::vector<std::string>& substrs_, const T& val, const argsT&... args)
 {
 	std::stringstream stream_;
 
@@ -25,11 +25,11 @@ void get_substrs(std::vector<std::string>& substrs_, T&& val, argsT&&... args)
 
 	substrs_.push_back(stream_.str());
 
-	get_substrs(substrs_, std::forward<argsT>(args)...);
+	get_substrs(substrs_, args...);
 }
 
 template <typename... argsT>
-std::string format(const std::string& str, argsT&&... args)
+std::string format(const std::string& str, const argsT&... args)
 {
 	std::string res = ""; // Result string
 	std::vector<std::string> substrs;
@@ -37,7 +37,7 @@ std::string format(const std::string& str, argsT&&... args)
 	bool inside_brackets = false;
 	int start = 0;
 
-	get_substrs(substrs, std::forward<argsT>(args)...); // Create vector of arguments converted into strings
+	get_substrs(substrs, args...); // Create vector of arguments converted into strings
 
 	for (int v = 0; v < str.length(); v++)
 	{
@@ -61,11 +61,20 @@ std::string format(const std::string& str, argsT&&... args)
 			{
 				if (v == start) // '{}' case
 					throw InvalidParanthesis("Invalid expression indide {}, should be non-negative integer");
-
-				int index = std::stoi(str.substr(start, v - start));
+					
+				int index = 0;
+				std::string index_string = str.substr(start, v - start);
+				try
+				{
+					index = std::stoi(index_string);
+				}
+				catch (const std::out_of_range& ex)
+				{
+					throw InvalidArguments(index_string, substrs.size());
+				}
 
 				if (index >= substrs.size())
-					throw InvalidArguments(index, substrs.size());
+					throw InvalidArguments(index_string, substrs.size());
 
 				res += substrs[index];
 				inside_brackets = false;

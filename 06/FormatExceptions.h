@@ -16,10 +16,10 @@ public:
 class InvalidArguments : public std::exception
 {
 private:
-	int arg_index_;
+	std::string arg_index_;
 	int arg_size_;
 public:
-	InvalidArguments(int i, int size): arg_index_(i), arg_size_(size) {}
+	InvalidArguments(const std::string& i, int size): arg_index_(i), arg_size_(size) {}
 	const char* what() const noexcept override
 	{
 		std::stringstream ss;
